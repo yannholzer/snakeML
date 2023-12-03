@@ -34,14 +34,14 @@ class Snake(pg.sprite.Sprite):
 
 	def get_direction(self):
 		keys = pg.key.get_pressed()
-		if keys[pg.K_a] and self.going_direction != DIRECTIONS["RIGHT"]:
-			self.chosen_direction = DIRECTIONS["LEFT"]
-		if keys[pg.K_d] and self.going_direction != DIRECTIONS["LEFT"]:
-			self.chosen_direction = DIRECTIONS["RIGHT"]
-		if keys[pg.K_w] and self.going_direction != DIRECTIONS["DOWN"]:
-			self.chosen_direction = DIRECTIONS["UP"]
-		if keys[pg.K_s] and self.going_direction != DIRECTIONS["UP"]:
-			self.chosen_direction = DIRECTIONS["DOWN"]
+		if keys[pg.K_a] and self.going_direction != DIRECTIONS["right"]:
+			self.chosen_direction = DIRECTIONS["left"]
+		if keys[pg.K_d] and self.going_direction != DIRECTIONS["left"]:
+			self.chosen_direction = DIRECTIONS["right"]
+		if keys[pg.K_w] and self.going_direction != DIRECTIONS["down"]:
+			self.chosen_direction = DIRECTIONS["up"]
+		if keys[pg.K_s] and self.going_direction != DIRECTIONS["up"]:
+			self.chosen_direction = DIRECTIONS["down"]
 	
 	
 

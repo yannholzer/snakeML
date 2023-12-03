@@ -24,6 +24,7 @@ class Game:
 		# init sprites
 		self.snake = Snake(self)
 		self.food = Food(self)
+		self.reward = 0
 		self.run()
 
 
@@ -48,6 +49,7 @@ class Game:
 			self.counter = 0
 			self.snake.going_direction = self.snake.chosen_direction
 			if self.snake.body[0] + self.snake.going_direction*10 == self.food.pos:
+				self.reward += 10
 				self.snake.body.insert(0, self.food.pos)
 				self.food.set_location()
 				self.score += 10
@@ -73,10 +75,10 @@ class Game:
 
 	def get_states(self):
 		# get food direction
-		# food dir x, food dir y, danger left, danger up, danger right
-		state = [0, 0, 0, 0, 0]
-		food_direction = (self.snake.body[0] - self.food.pos).normalize()
-		state[0:2] = [*food_direction]
+		# danger up - down - left - right
+		# food up - down - left - right 
+		# going dir up - down - left - right
+		state = 12*[0]
 
 		danger = {
 			"left": False,
@@ -84,22 +86,42 @@ class Game:
 			"up": False,
 			"down": False
 		}
+  
+		food = {
+			"left": False,
+			"right": False,
+			"up": False,
+			"down": False
+		}
+  
+		direction = {
+			"left": False,
+			"right": False,
+			"up": False,
+			"down": False
+		}
 
-		if self.snake.body[0].x + 10 > SCREEN_SIZE[0] -10:
-			danger["right"] = True
-			print("danger right")
-		if self.snake.body[0].y + 10 > SCREEN_SIZE[1] -10:
-			danger["down"] = True
-			print("danger down")
-		if self.snake.body[0].x - 10 < 0:
-			danger["left"] = True
-			print("danger left")
-		if self.snake.body[0].y - 10 < 0:
-			danger["up"] = True			
-			print("danger up")
+
+		danger["right"] = self.snake.body[0].x + 10 > SCREEN_SIZE[0] -10
+		danger["down"] = self.snake.body[0].y + 10 > SCREEN_SIZE[1] -10
+		danger["left"] = self.snake.body[0].x - 10 < 0
+		danger["up"] = self.snake.body[0].y - 10 < 0
+			
+		food["right"] = self.snake.body[0].x  < self.food.pos.x
+		food["down"] = self.snake.body[0].y  < self.food.pos.y
+		food["left"] = self.snake.body[0].x > self.food.pos.x
+		food["up"] = self.snake.body[0].y  > self.food.pos.y
+  
+		direction["right"] = self.snake.going_direction.x  > 0
+		direction["down"] = self.snake.going_direction.y  > 0
+		direction["left"] = self.snake.going_direction.x  < 0
+		direction["up"] = self.snake.going_direction.y < 0
+
 		
-
-
+		state[0:4] = list(danger.items())
+		state[4:8] = list(food.items())
+		state[8:12] = list(direction.items())
+  
 
 		# get danger ahead
 
@@ -108,6 +130,7 @@ class Game:
 
 
 	def game_over(self):
+		self.reward -= 10
 		print("GAME OVER")
 		pg.time.wait(2000)
 		self.playing = False

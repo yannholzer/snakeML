@@ -5,7 +5,7 @@ SCREEN_SIZE = (500, 500)
 SCREEN_CENTER = (SCREEN_SIZE[0]//2, SCREEN_SIZE[1]//2)
 TITLE = "snake"
 FPS = 60
-SNAKE_SPEED = 15
+SNAKE_SPEED = 5
 
 
 COLORS = {
@@ -16,8 +16,8 @@ COLORS = {
 }
 
 DIRECTIONS = {
-    "UP" : vec(0, -1),
-    "DOWN": vec(0, 1),
-    "RIGHT": vec(1, 0),
-    "LEFT": vec(-1, 0)
+    "up" : vec(0, -1),
+    "down": vec(0, 1),
+    "right": vec(1, 0),
+    "left": vec(-1, 0)
 }
